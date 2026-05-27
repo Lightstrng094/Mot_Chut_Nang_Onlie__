@@ -5,7 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Một Chút Nắng - Gây Quỹ Thiện Nguyện</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3CradialGradient id='g' cx='35%25' cy='30%25'%3E%3Cstop stop-color='%23fff7a5'/%3E%3Cstop offset='.62' stop-color='%23f9c74f'/%3E%3Cstop offset='1' stop-color='%23f3722c'/%3E%3C/radialGradient%3E%3C/defs%3E%3Ccircle cx='32' cy='32' r='21' fill='url(%23g)'/%3E%3Cpath d='M32 3v10M32 51v10M3 32h10M51 32h10M11.5 11.5l7 7M45.5 45.5l7 7M52.5 11.5l-7 7M18.5 45.5l-7 7' stroke='%23f9c74f' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3CradialGradient id='g' cx='35%25' cy='30%25'%3E%3Cstop stop-color='%23fff7a5'/%3E%3Cstop offset='.62' stop-color='%23f9c74f'/%3E%3Cstop offset='1' stop-color='%23f3722c'/%3E%3C/radialGradient%3E%3C/defs%3E%3Ccircle cx='32' cy='32' r='21' fill='url(%23g)'/%3E%3Cpath d='M32 3v10M32 51v10M3 32h10M51 32h10M11.5 11.5l7 7M45.5 45.5l7 7M52.5 11.5l-7 7M18.5 45.5l-7 7' stroke='%23f9c74f' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -1354,11 +1355,6 @@
       overflow: hidden;
     }
 
-    .checkout-dialog[open] {
-      display: flex;
-      flex-direction: column;
-    }
-
     .checkout-dialog::backdrop {
       background: rgba(41, 26, 12, .44);
       backdrop-filter: blur(4px);
@@ -1372,7 +1368,6 @@
       padding: 22px 22px 16px;
       border-bottom: 1px solid var(--line);
       background: linear-gradient(135deg, rgba(255, 239, 199, .75), rgba(223, 247, 223, .62));
-      flex-shrink: 0;
     }
 
     .checkout-head h2 {
@@ -1386,40 +1381,18 @@
     }
 
     .checkout-form {
-      display: flex;
-      flex: 1;
-      min-height: 0;
-      flex-direction: column;
-      padding: 0;
-    }
-
-    .checkout-scroll {
       display: grid;
       gap: 18px;
-      min-height: 0;
-      overflow-y: auto;
-      padding: 20px 22px;
-      overscroll-behavior: contain;
+      padding: 20px 22px 22px;
     }
 
     .checkout-summary {
       display: grid;
-      max-height: min(300px, 34vh);
-      overflow: hidden;
-      padding: 0;
+      gap: 8px;
+      padding: 14px;
       border-radius: var(--radius);
       background: #fff;
       border: 1px solid var(--line);
-      overscroll-behavior: contain;
-    }
-
-    .checkout-items {
-      display: grid;
-      gap: 8px;
-      min-height: 0;
-      overflow-y: auto;
-      padding: 14px;
-      overscroll-behavior: contain;
     }
 
     .checkout-line {
@@ -1436,12 +1409,10 @@
     }
 
     .checkout-total {
-      padding: 12px 14px 13px;
+      padding-top: 8px;
       border-top: 1px dashed rgba(111, 75, 38, .24);
-      background: linear-gradient(135deg, #fff8ee, #fff);
       color: var(--sun-deep);
-      font-size: 1.2rem;
-      box-shadow: 0 -10px 22px rgba(95, 62, 25, .08);
+      font-size: 1.16rem;
     }
 
     .form-grid {
@@ -1478,7 +1449,7 @@
     }
 
     .field textarea {
-      min-height: 82px;
+      min-height: 96px;
       resize: vertical;
     }
 
@@ -1493,16 +1464,6 @@
       grid-template-columns: 1.25fr 1fr;
       gap: 10px;
       align-items: center;
-    }
-
-    .checkout-actions {
-      flex-shrink: 0;
-      display: grid;
-      gap: 10px;
-      padding: 14px 22px 16px;
-      border-top: 1px solid rgba(111, 75, 38, .14);
-      background: linear-gradient(180deg, rgba(255, 253, 247, .95), var(--paper));
-      box-shadow: 0 -12px 32px rgba(95, 62, 25, .1);
     }
 
     .submit-row .btn {
@@ -1651,6 +1612,7 @@
     }
 
     @keyframes lightSweep {
+
       0%,
       100% {
         opacity: .56;
@@ -1995,10 +1957,634 @@
         transition-duration: .001ms !important;
       }
     }
+
+    /* ── LOADING SCREEN ── */
+    #loader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      background: linear-gradient(135deg, #fff8ee 0%, #ffefc7 50%, #fff3d0 100%);
+      transition: opacity .65s ease, visibility .65s ease;
+    }
+
+    #loader.hide {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .loader-sun {
+      width: 74px;
+      height: 74px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #fff7a5, var(--sun) 56%, var(--sun-deep));
+      box-shadow: 0 0 60px rgba(249, 199, 79, .7), 0 0 100px rgba(243, 114, 44, .3);
+      animation: loaderPulse 1.2s ease-in-out infinite;
+      position: relative;
+    }
+
+    .loader-sun::before {
+      content: "☀️";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-size: 2.4rem;
+    }
+
+    @keyframes loaderPulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 40px rgba(249, 199, 79, .7);
+      }
+
+      50% {
+        transform: scale(1.13);
+        box-shadow: 0 0 90px rgba(249, 199, 79, .95), 0 0 130px rgba(243, 114, 44, .4);
+      }
+    }
+
+    .loader-title {
+      font-family: "Pacifico", cursive;
+      font-size: 1.6rem;
+      color: var(--brown);
+      animation: loaderFade 1.2s ease-in-out infinite;
+    }
+
+    @keyframes loaderFade {
+
+      0%,
+      100% {
+        opacity: .45;
+      }
+
+      50% {
+        opacity: 1;
+      }
+    }
+
+    .loader-dots {
+      display: flex;
+      gap: 10px;
+    }
+
+    .loader-dots span {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--sun-deep);
+      animation: loaderDot 1s ease-in-out infinite;
+    }
+
+    .loader-dots span:nth-child(2) {
+      animation-delay: .18s;
+      background: var(--rose);
+    }
+
+    .loader-dots span:nth-child(3) {
+      animation-delay: .36s;
+      background: var(--leaf);
+    }
+
+    @keyframes loaderDot {
+
+      0%,
+      100% {
+        transform: translateY(0) scale(1);
+        opacity: .5;
+      }
+
+      50% {
+        transform: translateY(-12px) scale(1.25);
+        opacity: 1;
+      }
+    }
+
+    /* ── MESH GRADIENT BLOBS ── */
+    .hero-mesh {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .mesh-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(88px);
+      opacity: .2;
+      animation: blobDrift var(--bd, 12s) ease-in-out infinite alternate;
+      will-change: transform;
+    }
+
+    @keyframes blobDrift {
+      from {
+        transform: translate(0px, 0px) scale(1);
+      }
+
+      to {
+        transform: translate(var(--tx, 40px), var(--ty, -30px)) scale(1.18);
+      }
+    }
+
+    /* ── BRAND SHIMMER ── */
+    @keyframes brandShimmer {
+
+      0%,
+      55%,
+      100% {
+        opacity: 0;
+        background-position: -200% 0;
+      }
+
+      28% {
+        opacity: 1;
+        background-position: 200% 0;
+      }
+    }
+
+    .brand-text-wrap {
+      position: relative;
+      display: inline-block;
+    }
+
+    .brand-text-wrap::after {
+      content: attr(data-text);
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(249, 199, 79, .65) 50%, transparent 100%);
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      opacity: 0;
+      animation: brandShimmer 5s ease-in-out infinite;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    /* ── HERO LIVE BADGE ── */
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      border-radius: 999px;
+      background: rgba(255, 253, 247, .9);
+      border: 1px solid rgba(249, 199, 79, .45);
+      font-size: .88rem;
+      font-weight: 800;
+      color: var(--brown-soft);
+      box-shadow: 0 4px 18px rgba(249, 199, 79, .2);
+      margin-bottom: 18px;
+      backdrop-filter: blur(8px);
+      animation: badgePop .55s .25s cubic-bezier(.22, 1, .36, 1) both;
+    }
+
+    @keyframes badgePop {
+      from {
+        opacity: 0;
+        transform: scale(.7) translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .badge-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--leaf);
+      box-shadow: 0 0 0 3px rgba(89, 169, 106, .3);
+      animation: badgePulse 1.6s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes badgePulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 3px rgba(89, 169, 106, .28);
+      }
+
+      50% {
+        box-shadow: 0 0 0 8px rgba(89, 169, 106, .08);
+      }
+    }
+
+    /* ── SLIDE REVEAL VARIANTS ── */
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-44px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(44px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .reveal-left.visible,
+    .reveal-right.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ── ANIMATED ORDER STRIP ── */
+    .order-strip {
+      background: linear-gradient(90deg, var(--leaf), #43a3b8, var(--sun-deep), var(--rose), var(--leaf));
+      background-size: 300% 100%;
+      animation: orderGradShift 7s linear infinite;
+    }
+
+    @keyframes orderGradShift {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      100% {
+        background-position: 300% 50%;
+      }
+    }
+
+    /* ── PRICE UNDERLINE SWIPE ── */
+    .price {
+      position: relative;
+    }
+
+    .price::after {
+      content: "";
+      position: absolute;
+      left: -3px;
+      right: -3px;
+      bottom: -2px;
+      height: 7px;
+      background: rgba(249, 199, 79, .36);
+      border-radius: 4px;
+      z-index: -1;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .32s ease;
+    }
+
+    .product-card:hover .price::after {
+      transform: scaleX(1);
+    }
+
+    /* ── CONTACT PANEL GRADIENT BORDER ── */
+    .contact-panel {
+      background: linear-gradient(var(--paper), var(--paper)) padding-box,
+        linear-gradient(135deg, rgba(249, 199, 79, .7), rgba(255, 143, 171, .5), rgba(124, 198, 215, .6)) border-box;
+      border: 2px solid transparent;
+    }
+
+    /* ── TICKER GLOW ── */
+    .ticker-wrap {
+      box-shadow: 0 -6px 28px rgba(249, 199, 79, .18), 0 6px 28px rgba(249, 199, 79, .12);
+    }
+
+    /* ── THANKS GLOW ── */
+    .thanks {
+      animation: thanksGlow 3.4s ease-in-out infinite;
+    }
+
+    @keyframes thanksGlow {
+
+      0%,
+      100% {
+        text-shadow: none;
+      }
+
+      50% {
+        text-shadow: 0 0 28px rgba(249, 199, 79, .5), 0 0 56px rgba(243, 114, 44, .22);
+      }
+    }
+
+    /* ── FOOTER WAVE ── */
+    .footer-wave {
+      overflow: hidden;
+      line-height: 0;
+      background: #ffffff;
+    }
+
+    .footer-wave svg {
+      display: block;
+      width: 100%;
+    }
+
+    /* ── ENHANCED EFFECTS ── */
+
+    /* Animated gradient headings */
+    @keyframes gradientText {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .section-heading h2 {
+      background: linear-gradient(90deg, var(--brown), var(--sun-deep), #e05f00, var(--rose), var(--leaf), var(--sky), var(--brown));
+      background-size: 350% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientText 6s linear infinite;
+    }
+
+    /* Wave SVG dividers */
+    .wave-divider {
+      position: relative;
+      z-index: 2;
+      overflow: hidden;
+      line-height: 0;
+      pointer-events: none;
+    }
+
+    .wave-divider svg {
+      display: block;
+      width: 100%;
+    }
+
+    /* Sparkle trail */
+    .sparkle-dot {
+      position: fixed;
+      z-index: 2600;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%) scale(1);
+      animation: sparkleFade .7s ease-out forwards;
+    }
+
+    @keyframes sparkleFade {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.2);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0) translateY(-20px);
+      }
+    }
+
+    /* Stagger reveal delays */
+    .impact-grid .impact-card:nth-child(1) {
+      transition-delay: 0s;
+    }
+
+    .impact-grid .impact-card:nth-child(2) {
+      transition-delay: .1s;
+    }
+
+    .impact-grid .impact-card:nth-child(3) {
+      transition-delay: .2s;
+    }
+
+    .impact-grid .impact-card:nth-child(4) {
+      transition-delay: .3s;
+    }
+
+    .products .product-card:nth-child(1) {
+      transition-delay: 0s;
+    }
+
+    .products .product-card:nth-child(2) {
+      transition-delay: .08s;
+    }
+
+    .products .product-card:nth-child(3) {
+      transition-delay: .16s;
+    }
+
+    .products .product-card:nth-child(4) {
+      transition-delay: .24s;
+    }
+
+    .products .product-card:nth-child(5) {
+      transition-delay: .32s;
+    }
+
+    .products .product-card:nth-child(6) {
+      transition-delay: .40s;
+    }
+
+    .mission-list .mission-row:nth-child(1) {
+      transition-delay: 0s;
+    }
+
+    .mission-list .mission-row:nth-child(2) {
+      transition-delay: .12s;
+    }
+
+    .mission-list .mission-row:nth-child(3) {
+      transition-delay: .24s;
+    }
+
+    /* Animated border glow on product cards */
+    @property --border-angle {
+      syntax: "<angle>";
+      initial-value: 0deg;
+      inherits: false;
+    }
+
+    @keyframes borderSpin {
+      to {
+        --border-angle: 360deg;
+      }
+    }
+
+    .product-card:hover {
+      --border-glow: 1;
+    }
+
+    .product-card {
+      --border-angle: 0deg;
+    }
+
+    .product-card:hover::before {
+      background: conic-gradient(from var(--border-angle),
+          transparent 0% 25%,
+          rgba(249, 199, 79, .35) 30%,
+          rgba(255, 143, 171, .3) 40%,
+          transparent 50%);
+      animation: borderSpin 2.5s linear infinite;
+      inset: -1px;
+      border-radius: var(--radius);
+      z-index: -1;
+    }
+
+    /* Pulse ring on impact cards */
+    .impact-card {
+      position: relative;
+    }
+
+    .impact-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: var(--radius);
+      box-shadow: 0 0 0 0 rgba(249, 199, 79, .4);
+      opacity: 0;
+      transition: opacity .3s;
+    }
+
+    .impact-card:hover::after {
+      animation: pulseRing .7s ease-out forwards;
+      opacity: 1;
+    }
+
+    @keyframes pulseRing {
+      to {
+        box-shadow: 0 0 0 18px rgba(249, 199, 79, 0);
+      }
+    }
+
+    /* Typewriter cursor */
+    .tw-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.1em;
+      background: var(--sun-deep);
+      margin-left: 3px;
+      vertical-align: middle;
+      border-radius: 1px;
+      animation: twBlink .8s step-end infinite;
+    }
+
+    @keyframes twBlink {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0;
+      }
+    }
+
+    /* Ripple on buttons */
+    .btn-ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .38);
+      transform: scale(0);
+      animation: btnRipple .55s linear;
+      pointer-events: none;
+    }
+
+    @keyframes btnRipple {
+      to {
+        transform: scale(3.5);
+        opacity: 0;
+      }
+    }
+
+    /* Floating hearts on hover over mission rows */
+    .float-heart {
+      position: fixed;
+      pointer-events: none;
+      z-index: 2600;
+      font-size: 1.1rem;
+      animation: heartFloat 1.1s ease-out forwards;
+    }
+
+    @keyframes heartFloat {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateY(-80px) scale(.5) rotate(20deg);
+      }
+    }
+
+    /* Section heading decorative underline */
+    .section-heading {
+      position: relative;
+    }
+
+    .section-heading h2::after {
+      content: "";
+      display: block;
+      width: 64px;
+      height: 4px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--sun), var(--rose));
+      margin: 10px auto 0;
+      animation: underlinePulse 2.4s ease-in-out infinite;
+    }
+
+    @keyframes underlinePulse {
+
+      0%,
+      100% {
+        width: 64px;
+        opacity: .8;
+      }
+
+      50% {
+        width: 110px;
+        opacity: 1;
+      }
+    }
+
+    /* Shimmering ticker */
+    .ticker-track span {
+      position: relative;
+    }
+
+    .ticker-track span::after {
+      content: "✦";
+      margin-left: 8px;
+      color: rgba(255, 232, 138, .45);
+      font-size: .75em;
+    }
+
+    /* Impact number glow */
+    .impact-card strong {
+      transition: text-shadow .3s ease;
+    }
+
+    .impact-card:hover strong {
+      text-shadow: 0 0 22px rgba(249, 199, 79, .5);
+    }
   </style>
 </head>
 
 <body>
+  <!-- Loading Screen -->
+  <div id="loader" aria-hidden="true">
+    <div class="loader-sun"></div>
+    <div class="loader-title">Một Chút Nắng</div>
+    <div class="loader-dots">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+
   <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
   <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
@@ -2034,9 +2620,28 @@
 
   <main id="top">
     <section class="hero" aria-labelledby="heroTitle">
+      <!-- Animated mesh gradient blobs -->
+      <div class="hero-mesh" aria-hidden="true">
+        <div class="mesh-blob"
+          style="width:520px;height:520px;left:-8%;top:-15%;background:radial-gradient(circle,rgba(249,199,79,.8),transparent 70%);--tx:60px;--ty:40px;--bd:14s;">
+        </div>
+        <div class="mesh-blob"
+          style="width:400px;height:400px;right:-6%;top:10%;background:radial-gradient(circle,rgba(124,198,215,.8),transparent 70%);--tx:-50px;--ty:60px;--bd:11s;">
+        </div>
+        <div class="mesh-blob"
+          style="width:340px;height:340px;left:30%;bottom:-10%;background:radial-gradient(circle,rgba(255,143,171,.8),transparent 70%);--tx:30px;--ty:-40px;--bd:16s;">
+        </div>
+        <div class="mesh-blob"
+          style="width:280px;height:280px;right:22%;bottom:20%;background:radial-gradient(circle,rgba(89,169,106,.7),transparent 70%);--tx:-35px;--ty:-30px;--bd:9s;">
+        </div>
+      </div>
       <div class="hero-particles" id="heroParticles" aria-hidden="true"></div>
       <div class="hero-inner">
         <div class="hero-copy">
+          <div class="hero-badge">
+            <span class="badge-dot"></span>
+            Đang nhận đơn hàng ✨
+          </div>
           <h1 class="hero-title" id="heroTitle">Một <span>Chút</span> Nắng</h1>
           <p class="hero-subtitle">
             Mỗi món ăn bạn chọn là một tia nắng gửi đến Trường Thanh Tâm.
@@ -2045,8 +2650,8 @@
           <div class="hero-actions">
             <a class="btn btn-primary" href="#menu">Xem menu hôm nay</a>
             <button class="btn btn-secondary" id="heroCartBtn" type="button">Mở giỏ hàng</button>
-            <a class="btn btn-zalo" href="https://zalo.me/0943752569" target="_blank"
-              rel="noopener noreferrer">Nhắn Zalo</a>
+            <a class="btn btn-zalo" href="https://zalo.me/0943752569" target="_blank" rel="noopener noreferrer">Nhắn
+              Zalo</a>
             <a class="btn btn-fb" href="https://www.facebook.com/profile.php?id=61589837998530" target="_blank"
               rel="noopener noreferrer">Theo dõi Fanpage</a>
           </div>
@@ -2070,6 +2675,13 @@
       </div>
     </section>
 
+    <div class="wave-divider" aria-hidden="true"
+      style="background:linear-gradient(180deg,rgba(255,239,199,.72),transparent);margin-top:-2px;">
+      <svg viewBox="0 0 1440 56" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height:56px;">
+        <path d="M0,28 C240,56 480,0 720,28 C960,56 1200,0 1440,28 L1440,56 L0,56 Z" fill="#4f3219" />
+      </svg>
+    </div>
+
     <div class="ticker-wrap" aria-hidden="true">
       <div class="ticker-track">
         <span>☀️ Nguyên liệu tươi ngon</span>
@@ -2087,6 +2699,12 @@
       </div>
     </div>
 
+    <div class="wave-divider" aria-hidden="true" style="background:#4f3219;margin-bottom:-2px;">
+      <svg viewBox="0 0 1440 56" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height:56px;">
+        <path d="M0,28 C360,0 720,56 1080,28 C1260,14 1380,40 1440,28 L1440,56 L0,56 Z" fill="#fffdf7" />
+      </svg>
+    </div>
+
     <section class="impact" aria-labelledby="impactTitle">
       <div class="section-shell">
         <div class="section-heading reveal">
@@ -2097,12 +2715,12 @@
         <div class="impact-grid">
           <div class="impact-card reveal">
             <div class="impact-icon">🥗</div>
-            <strong>6</strong>
+            <strong data-count="6">6</strong>
             <span>Món ăn & thức uống dễ thương</span>
           </div>
           <div class="impact-card reveal">
             <div class="impact-icon">🤝</div>
-            <strong>100%</strong>
+            <strong data-count="100" data-suffix="%">100%</strong>
             <span>Hướng đến hoạt động thiện nguyện</span>
           </div>
           <div class="impact-card reveal">
@@ -2119,9 +2737,16 @@
       </div>
     </section>
 
+    <div class="footer-wave" aria-hidden="true" style="background:#f1fff1;">
+      <svg viewBox="0 0 1440 64" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height:64px;">
+        <path d="M0,32 C180,64 360,0 540,32 C720,64 900,0 1080,32 C1260,64 1380,16 1440,32 L1440,64 L0,64 Z"
+          fill="rgba(255,253,247,.95)" />
+      </svg>
+    </div>
+
     <section class="about" id="about" aria-labelledby="aboutTitle">
       <div class="section-shell about-layout">
-        <div class="story-panel reveal">
+        <div class="story-panel reveal reveal-left">
           <div class="section-heading" style="text-align:left;margin-bottom:18px;">
             <h2 id="aboutTitle">Về dự án</h2>
           </div>
@@ -2139,7 +2764,7 @@
           </p>
         </div>
 
-        <div class="mission-list">
+        <div class="mission-list" style="position:relative;z-index:1;">
           <article class="mission-row reveal">
             <span class="icon" aria-hidden="true">🎓</span>
             <div>
@@ -2165,6 +2790,13 @@
       </div>
     </section>
 
+    <div class="footer-wave" aria-hidden="true"
+      style="background:linear-gradient(120deg,rgba(255,239,199,.8),rgba(223,247,223,.72));">
+      <svg viewBox="0 0 1440 56" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height:56px;">
+        <path d="M0,18 C240,56 480,0 720,28 C960,56 1200,4 1440,22 L1440,56 L0,56 Z" fill="#fffdf7" />
+      </svg>
+    </div>
+
     <section class="menu-section" id="menu" aria-labelledby="menuTitle">
       <div class="section-shell">
         <div class="section-heading reveal">
@@ -2186,6 +2818,14 @@
       </div>
     </section>
   </main>
+
+  <div class="footer-wave" aria-hidden="true"
+    style="background:linear-gradient(90deg,var(--leaf),#43a3b8,var(--sun-deep));">
+    <svg viewBox="0 0 1440 72" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height:72px;">
+      <path d="M0,36 C180,72 360,0 540,36 C720,72 900,8 1080,36 C1260,64 1380,20 1440,36 L1440,72 L0,72 Z"
+        fill="#ffffff" />
+    </svg>
+  </div>
 
   <footer class="footer" id="contact">
     <div class="section-shell">
@@ -2264,46 +2904,42 @@
     </div>
 
     <form class="checkout-form" id="orderForm" action="#" method="POST">
-      <div class="checkout-scroll">
-        <div class="checkout-summary" id="checkoutSummary"></div>
+      <div class="checkout-summary" id="checkoutSummary"></div>
 
-        <div class="form-grid">
-          <div class="field">
-            <label for="customerName">Họ và tên</label>
-            <input id="customerName" name="customer_name" type="text" autocomplete="name" required>
-          </div>
-          <div class="field">
-            <label for="customerPhone">Số điện thoại</label>
-            <input id="customerPhone" name="customer_phone" type="tel" autocomplete="tel" required>
-          </div>
-          <div class="field full">
-            <label for="customerAddress">Địa điểm nhận món</label>
-            <input id="customerAddress" name="pickup_location" type="text" placeholder="Ví dụ: sảnh Alpha, FPT HCM"
-              required>
-          </div>
-          <div class="field full">
-            <label for="customerNote">Ghi chú</label>
-            <textarea id="customerNote" name="customer_note"
-              placeholder="Ví dụ: lấy lúc 10:30, ít đá, thêm muỗng..."></textarea>
-          </div>
+      <div class="form-grid">
+        <div class="field">
+          <label for="customerName">Họ và tên</label>
+          <input id="customerName" name="customer_name" type="text" autocomplete="name" required>
         </div>
-
-        <input type="hidden" name="email_subject" id="emailSubject" value="Đơn hàng mới từ website Một Chút Nắng">
-        <input type="hidden" name="order_detail" id="orderDetail">
-        <input type="hidden" name="cart_total" id="cartTotalField">
+        <div class="field">
+          <label for="customerPhone">Số điện thoại</label>
+          <input id="customerPhone" name="customer_phone" type="tel" autocomplete="tel" required>
+        </div>
+        <div class="field full">
+          <label for="customerAddress">Địa điểm nhận món</label>
+          <input id="customerAddress" name="pickup_location" type="text" placeholder="Ví dụ: sảnh Alpha, FPT HCM"
+            required>
+        </div>
+        <div class="field full">
+          <label for="customerNote">Ghi chú</label>
+          <textarea id="customerNote" name="customer_note"
+            placeholder="Ví dụ: lấy lúc 10:30, ít đá, thêm muỗng..."></textarea>
+        </div>
       </div>
 
-      <div class="checkout-actions">
-        <div class="submit-row">
-          <button class="btn btn-primary" id="submitOrder" type="submit">Gửi đơn trực tiếp</button>
-          <a class="btn btn-secondary" id="mailFallback" href="mailto:motchutnang.ssg105@gmail.com">Mở email dự phòng</a>
-        </div>
-        <p class="order-status" id="orderStatus"></p>
-        <p class="form-note">
-          Đơn sẽ gửi về Gmail của dự án qua Google Apps Script. Sau khi deploy file
-          <strong>order-mailer.gs</strong>, dán Web App URL vào biến <strong>ORDER_ENDPOINT</strong> trong file này.
-        </p>
+      <input type="hidden" name="email_subject" id="emailSubject" value="Đơn hàng mới từ website Một Chút Nắng">
+      <input type="hidden" name="order_detail" id="orderDetail">
+      <input type="hidden" name="cart_total" id="cartTotalField">
+
+      <div class="submit-row">
+        <button class="btn btn-primary" id="submitOrder" type="submit">Gửi đơn trực tiếp</button>
+        <a class="btn btn-secondary" id="mailFallback" href="mailto:motchutnang.ssg105@gmail.com">Mở email dự phòng</a>
       </div>
+      <p class="order-status" id="orderStatus"></p>
+      <p class="form-note">
+        Đơn sẽ gửi về Gmail của dự án qua Google Apps Script. Sau khi deploy file
+        <strong>order-mailer.gs</strong>, dán Web App URL vào biến <strong>ORDER_ENDPOINT</strong> trong file này.
+      </p>
     </form>
   </dialog>
 
@@ -2991,9 +3627,7 @@
       }).join("");
 
       els.checkoutSummary.innerHTML = `
-        <div class="checkout-items">
-          ${rows}
-        </div>
+        ${rows}
         <div class="checkout-line checkout-total">
           <span>Tổng cộng</span>
           <strong>${formatMoney(getCartTotal())}</strong>
@@ -3258,6 +3892,183 @@
     window.addEventListener("keydown", event => {
       if (event.key === "Escape") closeCart();
     });
+
+    /* ── SPARKLE MOUSE TRAIL ── */
+    const sparkleColors = ["#f9c74f", "#f3722c", "#ff8fab", "#59a96a", "#7cc6d7", "#fff5a4"];
+    let lastSparkleTime = 0;
+
+    document.addEventListener("mousemove", e => {
+      const now = Date.now();
+      if (now - lastSparkleTime < 55) return;
+      lastSparkleTime = now;
+
+      const dot = document.createElement("div");
+      dot.className = "sparkle-dot";
+      dot.style.left = e.clientX + "px";
+      dot.style.top = e.clientY + "px";
+      dot.style.background = sparkleColors[Math.floor(Math.random() * sparkleColors.length)];
+      dot.style.width = (5 + Math.random() * 7) + "px";
+      dot.style.height = dot.style.width;
+      document.body.appendChild(dot);
+      dot.addEventListener("animationend", () => dot.remove(), { once: true });
+    });
+
+    /* ── TYPEWRITER EFFECT on hero-subtitle ── */
+    (function () {
+      const el = document.querySelector(".hero-subtitle");
+      if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+      const original = el.textContent.trim();
+      el.textContent = "";
+      const cursor = document.createElement("span");
+      cursor.className = "tw-cursor";
+      cursor.setAttribute("aria-hidden", "true");
+      el.appendChild(cursor);
+
+      let i = 0;
+      const speed = 28;
+
+      function type() {
+        if (i < original.length) {
+          el.insertBefore(document.createTextNode(original[i]), cursor);
+          i++;
+          setTimeout(type, speed + Math.random() * 18);
+        } else {
+          setTimeout(() => cursor.remove(), 1800);
+        }
+      }
+
+      setTimeout(type, 950);
+    })();
+
+    /* ── COUNT-UP ANIMATION for impact numbers ── */
+    (function () {
+      const targets = document.querySelectorAll("[data-count]");
+      if (!targets.length) return;
+
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target;
+          const end = parseInt(el.dataset.count, 10);
+          const suffix = el.dataset.suffix || "";
+          const duration = 1400;
+          const startTime = performance.now();
+
+          function update(now) {
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            el.textContent = Math.round(eased * end) + suffix;
+            if (progress < 1) requestAnimationFrame(update);
+          }
+
+          requestAnimationFrame(update);
+          obs.unobserve(el);
+        });
+      }, { threshold: 0.6 });
+
+      targets.forEach(t => obs.observe(t));
+    })();
+
+    /* ── RIPPLE EFFECT on all .btn ── */
+    document.querySelectorAll(".btn, .add-btn").forEach(btn => {
+      btn.addEventListener("click", function (e) {
+        const ripple = document.createElement("span");
+        ripple.className = "btn-ripple";
+        const rect = this.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height) * 1.4;
+        ripple.style.width = ripple.style.height = size + "px";
+        ripple.style.left = (e.clientX - rect.left - size / 2) + "px";
+        ripple.style.top = (e.clientY - rect.top - size / 2) + "px";
+        this.style.position = "relative";
+        this.style.overflow = "hidden";
+        this.appendChild(ripple);
+        ripple.addEventListener("animationend", () => ripple.remove(), { once: true });
+      });
+    });
+
+    /* ── FLOATING HEARTS on mission-row hover ── */
+    document.querySelectorAll(".mission-row").forEach(row => {
+      row.addEventListener("mouseenter", function () {
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        const rect = this.getBoundingClientRect();
+        const heart = document.createElement("span");
+        heart.className = "float-heart";
+        heart.textContent = ["💛", "✨", "🌻", "☀️", "💫"][Math.floor(Math.random() * 5)];
+        heart.style.left = (rect.left + Math.random() * rect.width) + "px";
+        heart.style.top = (rect.top + rect.height / 2) + "px";
+        document.body.appendChild(heart);
+        heart.addEventListener("animationend", () => heart.remove(), { once: true });
+      });
+    });
+
+    /* ── PARALLAX on hero background ── */
+    window.addEventListener("scroll", () => {
+      const hero = document.querySelector(".hero");
+      if (!hero) return;
+      const scrolled = window.scrollY;
+      if (scrolled > window.innerHeight * 1.2) return;
+      hero.style.backgroundPositionY = `${scrolled * 0.32}px`;
+    }, { passive: true });
+
+    /* ── LOADER HIDE ── */
+    (function () {
+      const loader = document.getElementById("loader");
+      if (!loader) return;
+
+      function hideLoader() {
+        loader.classList.add("hide");
+        setTimeout(() => loader.remove(), 700);
+      }
+
+      if (document.readyState === "complete") {
+        setTimeout(hideLoader, 400);
+      } else {
+        window.addEventListener("load", () => setTimeout(hideLoader, 400), { once: true });
+        setTimeout(hideLoader, 2200); // fallback
+      }
+    })();
+
+    /* ── MAGNETIC BUTTONS ── */
+    (function () {
+      if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+
+      document.querySelectorAll(".btn-primary, .btn-fb, .btn-zalo, .cart-toggle").forEach(btn => {
+        btn.addEventListener("mousemove", function (e) {
+          const rect = this.getBoundingClientRect();
+          const cx = rect.left + rect.width / 2;
+          const cy = rect.top + rect.height / 2;
+          const dx = (e.clientX - cx) * 0.28;
+          const dy = (e.clientY - cy) * 0.28;
+          this.style.transform = `translate(${dx}px, ${dy}px) translateY(-2px)`;
+        });
+
+        btn.addEventListener("mouseleave", function () {
+          this.style.transform = "";
+        });
+      });
+    })();
+
+    /* ── REVEAL LEFT / RIGHT OBSERVER ── */
+    (function () {
+      const els2 = document.querySelectorAll(".reveal-left, .reveal-right");
+      if (!els2.length || !("IntersectionObserver" in window)) {
+        els2.forEach(el => el.classList.add("visible"));
+        return;
+      }
+
+      const obs2 = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            obs2.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      els2.forEach(el => obs2.observe(el));
+    })();
   </script>
 </body>
 
