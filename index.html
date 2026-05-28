@@ -1344,7 +1344,7 @@
 
     .checkout-dialog {
       width: min(720px, calc(100vw - 28px));
-      max-height: calc(100vh - 28px);
+      max-height: calc(100dvh - 28px);
       margin: auto;
       padding: 0;
       border: 0;
@@ -1353,6 +1353,11 @@
       color: var(--brown);
       box-shadow: var(--shadow-strong);
       overflow: hidden;
+    }
+
+    .checkout-dialog[open] {
+      display: flex;
+      flex-direction: column;
     }
 
     .checkout-dialog::backdrop {
@@ -1368,6 +1373,7 @@
       padding: 22px 22px 16px;
       border-bottom: 1px solid var(--line);
       background: linear-gradient(135deg, rgba(255, 239, 199, .75), rgba(223, 247, 223, .62));
+      flex-shrink: 0;
     }
 
     .checkout-head h2 {
@@ -1381,18 +1387,44 @@
     }
 
     .checkout-form {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+      flex-direction: column;
+      padding: 0;
+    }
+
+    .checkout-scroll {
       display: grid;
+      flex: 1;
       gap: 18px;
-      padding: 20px 22px 22px;
+      min-height: 0;
+      overflow-y: auto;
+      padding: 20px 22px 18px;
+      overscroll-behavior: contain;
     }
 
     .checkout-summary {
+      --checkout-items-h: min(220px, 30dvh);
       display: grid;
-      gap: 8px;
-      padding: 14px;
+      height: calc(var(--checkout-items-h) + 54px);
+      max-height: none;
+      overflow: hidden;
+      padding: 0;
       border-radius: var(--radius);
       background: #fff;
       border: 1px solid var(--line);
+      overscroll-behavior: contain;
+    }
+
+    .checkout-items {
+      display: grid;
+      gap: 8px;
+      height: var(--checkout-items-h);
+      max-height: var(--checkout-items-h);
+      overflow-y: auto;
+      padding: 14px;
+      overscroll-behavior: contain;
     }
 
     .checkout-line {
@@ -1409,10 +1441,12 @@
     }
 
     .checkout-total {
-      padding-top: 8px;
+      padding: 12px 14px 13px;
       border-top: 1px dashed rgba(111, 75, 38, .24);
+      background: linear-gradient(135deg, #fff8ee, #fff);
       color: var(--sun-deep);
       font-size: 1.16rem;
+      box-shadow: 0 -8px 20px rgba(95, 62, 25, .08);
     }
 
     .form-grid {
@@ -1449,7 +1483,7 @@
     }
 
     .field textarea {
-      min-height: 96px;
+      min-height: 84px;
       resize: vertical;
     }
 
@@ -1464,6 +1498,16 @@
       grid-template-columns: 1.25fr 1fr;
       gap: 10px;
       align-items: center;
+    }
+
+    .checkout-actions {
+      display: grid;
+      flex-shrink: 0;
+      gap: 10px;
+      padding: 12px 22px 14px;
+      border-top: 1px solid rgba(111, 75, 38, .14);
+      background: linear-gradient(180deg, rgba(255, 253, 247, .96), var(--paper));
+      box-shadow: 0 -12px 32px rgba(95, 62, 25, .1);
     }
 
     .submit-row .btn {
@@ -1940,9 +1984,39 @@
         width: 100vw;
       }
 
-      .checkout-head,
-      .checkout-form {
+      .checkout-dialog {
+        width: calc(100vw - 16px);
+        max-height: calc(100dvh - 16px);
+        border-radius: 16px;
+      }
+
+      .checkout-head {
         padding-inline: 16px;
+      }
+
+      .checkout-form {
+        padding-inline: 0;
+      }
+
+      .checkout-scroll {
+        gap: 14px;
+        padding: 12px 16px 14px;
+      }
+
+      .checkout-summary {
+        --checkout-items-h: clamp(170px, 28dvh, 220px);
+      }
+
+      .checkout-items {
+        padding: 12px 14px;
+      }
+
+      .checkout-actions {
+        padding: 12px 16px 14px;
+      }
+
+      .field textarea {
+        min-height: 72px;
       }
     }
 
@@ -2904,42 +2978,47 @@
     </div>
 
     <form class="checkout-form" id="orderForm" action="#" method="POST">
-      <div class="checkout-summary" id="checkoutSummary"></div>
+      <div class="checkout-scroll">
+        <div class="checkout-summary" id="checkoutSummary"></div>
 
-      <div class="form-grid">
-        <div class="field">
-          <label for="customerName">Họ và tên</label>
-          <input id="customerName" name="customer_name" type="text" autocomplete="name" required>
+        <div class="form-grid">
+          <div class="field">
+            <label for="customerName">Họ và tên</label>
+            <input id="customerName" name="customer_name" type="text" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="customerPhone">Số điện thoại</label>
+            <input id="customerPhone" name="customer_phone" type="tel" autocomplete="tel" required>
+          </div>
+          <div class="field full">
+            <label for="customerAddress">Địa điểm nhận món</label>
+            <input id="customerAddress" name="pickup_location" type="text" placeholder="Ví dụ: sảnh Alpha, FPT HCM"
+              required>
+          </div>
+          <div class="field full">
+            <label for="customerNote">Ghi chú</label>
+            <textarea id="customerNote" name="customer_note"
+              placeholder="Ví dụ: lấy lúc 10:30, ít đá, thêm muỗng..."></textarea>
+          </div>
         </div>
-        <div class="field">
-          <label for="customerPhone">Số điện thoại</label>
-          <input id="customerPhone" name="customer_phone" type="tel" autocomplete="tel" required>
-        </div>
-        <div class="field full">
-          <label for="customerAddress">Địa điểm nhận món</label>
-          <input id="customerAddress" name="pickup_location" type="text" placeholder="Ví dụ: sảnh Alpha, FPT HCM"
-            required>
-        </div>
-        <div class="field full">
-          <label for="customerNote">Ghi chú</label>
-          <textarea id="customerNote" name="customer_note"
-            placeholder="Ví dụ: lấy lúc 10:30, ít đá, thêm muỗng..."></textarea>
-        </div>
+
+        <p class="form-note">
+          Đơn sẽ gửi về Gmail của dự án qua Google Apps Script. Sau khi deploy file
+          <strong>order-mailer.gs</strong>, dán Web App URL vào biến <strong>ORDER_ENDPOINT</strong> trong file này.
+        </p>
       </div>
 
       <input type="hidden" name="email_subject" id="emailSubject" value="Đơn hàng mới từ website Một Chút Nắng">
       <input type="hidden" name="order_detail" id="orderDetail">
       <input type="hidden" name="cart_total" id="cartTotalField">
 
-      <div class="submit-row">
-        <button class="btn btn-primary" id="submitOrder" type="submit">Gửi đơn trực tiếp</button>
-        <a class="btn btn-secondary" id="mailFallback" href="mailto:motchutnang.ssg105@gmail.com">Mở email dự phòng</a>
+      <div class="checkout-actions">
+        <div class="submit-row">
+          <button class="btn btn-primary" id="submitOrder" type="submit">Gửi đơn trực tiếp</button>
+          <a class="btn btn-secondary" id="mailFallback" href="mailto:motchutnang.ssg105@gmail.com">Mở email dự phòng</a>
+        </div>
+        <p class="order-status" id="orderStatus"></p>
       </div>
-      <p class="order-status" id="orderStatus"></p>
-      <p class="form-note">
-        Đơn sẽ gửi về Gmail của dự án qua Google Apps Script. Sau khi deploy file
-        <strong>order-mailer.gs</strong>, dán Web App URL vào biến <strong>ORDER_ENDPOINT</strong> trong file này.
-      </p>
     </form>
   </dialog>
 
@@ -3627,7 +3706,9 @@
       }).join("");
 
       els.checkoutSummary.innerHTML = `
-        ${rows}
+        <div class="checkout-items">
+          ${rows}
+        </div>
         <div class="checkout-line checkout-total">
           <span>Tổng cộng</span>
           <strong>${formatMoney(getCartTotal())}</strong>
