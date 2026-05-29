@@ -816,6 +816,162 @@
       font-size: .96rem;
     }
 
+    .donation {
+      padding: 78px 0 86px;
+      background:
+        radial-gradient(circle at 12% 20%, rgba(255, 143, 171, .18), transparent 28%),
+        radial-gradient(circle at 86% 72%, rgba(124, 198, 215, .2), transparent 30%),
+        linear-gradient(135deg, #fffdf7 0%, #f3fffb 52%, #fff3fb 100%);
+      overflow: hidden;
+    }
+
+    .donation-layout {
+      display: grid;
+      grid-template-columns: minmax(0, .95fr) minmax(320px, .78fr);
+      gap: clamp(26px, 5vw, 58px);
+      align-items: center;
+    }
+
+    .donation-copy {
+      position: relative;
+      z-index: 1;
+    }
+
+    .donation-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      color: #b51b78;
+      background: rgba(255, 143, 171, .14);
+      border: 1px solid rgba(255, 143, 171, .34);
+      font-weight: 900;
+    }
+
+    .donation-copy h2 {
+      font-family: "Pacifico", cursive;
+      color: var(--brown);
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      line-height: 1.05;
+      margin-bottom: 14px;
+    }
+
+    .donation-copy p {
+      color: var(--brown-soft);
+      font-size: 1.06rem;
+      line-height: 1.75;
+      margin-bottom: 14px;
+    }
+
+    .donation-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 24px 0 22px;
+    }
+
+    .donation-steps {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .donation-step {
+      padding: 16px;
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, .78);
+      border: 1px solid rgba(255, 143, 171, .22);
+      box-shadow: 0 12px 28px rgba(95, 62, 25, .08);
+    }
+
+    .donation-step strong {
+      display: block;
+      color: #b51b78;
+      margin-bottom: 6px;
+      font-size: 1.02rem;
+    }
+
+    .donation-step span {
+      color: var(--muted);
+      font-weight: 800;
+      line-height: 1.45;
+    }
+
+    .qr-card {
+      position: relative;
+      padding: clamp(18px, 3vw, 26px);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, .88);
+      border: 1px solid rgba(255, 143, 171, .28);
+      box-shadow: var(--shadow-strong);
+      overflow: hidden;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    .qr-card::before {
+      content: "";
+      position: absolute;
+      inset: -40% -35% auto auto;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 143, 171, .28), transparent 68%);
+      animation: breathe 4.8s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .qr-frame {
+      position: relative;
+      z-index: 1;
+      padding: 12px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #ff4fa7, #ff8fab, #7cc6d7);
+      box-shadow: 0 18px 44px rgba(181, 27, 120, .14);
+    }
+
+    .qr-frame img {
+      width: 100%;
+      aspect-ratio: 1140 / 1452;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 14px;
+      background: #fff;
+    }
+
+    .donation-meta {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 8px;
+      margin-top: 16px;
+      color: var(--brown-soft);
+      text-align: center;
+      font-weight: 900;
+    }
+
+    .donation-meta strong {
+      color: var(--brown);
+      font-size: 1.15rem;
+    }
+
+    .donation-note {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 14px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      color: #b51b78;
+      background: rgba(255, 143, 171, .12);
+      font-weight: 900;
+      text-align: center;
+    }
+
     .menu-section {
       padding: 76px 0 92px;
       background:
@@ -1872,6 +2028,7 @@
 
       .hero-inner,
       .about-layout,
+      .donation-layout,
       .footer-grid {
         grid-template-columns: 1fr;
       }
@@ -1900,8 +2057,14 @@
       }
 
       .impact-grid,
-      .products {
+      .products,
+      .donation-steps {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .qr-card {
+        max-width: 520px;
+        margin-inline: auto;
       }
 
       .order-strip .section-shell {
@@ -1961,6 +2124,7 @@
 
       .impact-grid,
       .products,
+      .donation-steps,
       .form-grid,
       .submit-row,
       .drawer-actions {
@@ -2678,6 +2842,7 @@
 
       <nav class="main-nav" aria-label="Điều hướng chính">
         <a href="#about">Dự án</a>
+        <a href="#donate">Quyên góp</a>
         <a href="#menu">Menu</a>
         <a href="#order">Đặt hàng</a>
         <a href="#contact">Liên hệ</a>
@@ -2868,6 +3033,58 @@
       style="background:linear-gradient(120deg,rgba(255,239,199,.8),rgba(223,247,223,.72));">
       <svg viewBox="0 0 1440 56" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height:56px;">
         <path d="M0,18 C240,56 480,0 720,28 C960,56 1200,4 1440,22 L1440,56 L0,56 Z" fill="#fffdf7" />
+      </svg>
+    </div>
+
+    <section class="donation" id="donate" aria-labelledby="donateTitle">
+      <div class="section-shell donation-layout">
+        <div class="donation-copy reveal reveal-left">
+          <div class="donation-badge">💗 Quyên góp riêng cho quỹ</div>
+          <h2 id="donateTitle">Gửi thêm một chút nắng</h2>
+          <p>
+            Đây là khu vực quyên góp riêng, không thuộc bước đặt món. Nếu bạn muốn ủng hộ thêm cho
+            quỹ <strong>Một Chút Nắng</strong>, hãy quét mã MoMo bên cạnh.
+          </p>
+          <p>
+            Nội dung chuyển khoản gợi ý: <strong>Ung ho Mot Chut Nang - Ho ten</strong>.
+          </p>
+          <div class="donation-actions">
+            <a class="btn btn-primary" href="#donationQr">Xem mã QR</a>
+            <a class="btn btn-secondary" href="donation-qr.jpg" target="_blank" rel="noopener noreferrer">Mở ảnh QR</a>
+          </div>
+          <div class="donation-steps">
+            <div class="donation-step">
+              <strong>1. Mở MoMo</strong>
+              <span>Chọn tính năng quét mã QR.</span>
+            </div>
+            <div class="donation-step">
+              <strong>2. Quét mã</strong>
+              <span>Kiểm tra người nhận LE THANH KHANG.</span>
+            </div>
+            <div class="donation-step">
+              <strong>3. Góp nắng</strong>
+              <span>Nhập số tiền và ghi chú cho quỹ.</span>
+            </div>
+          </div>
+        </div>
+
+        <article class="qr-card reveal tilt-surface" id="donationQr" aria-label="Mã QR quyên góp MoMo">
+          <div class="qr-frame">
+            <img src="donation-qr.jpg" alt="Mã QR MoMo quyên góp cho quỹ Một Chút Nắng">
+          </div>
+          <div class="donation-meta">
+            <strong>LE THANH KHANG</strong>
+            <span>NH: MoMo</span>
+            <span>PSG2614717500000020</span>
+          </div>
+          <div class="donation-note">Quét QR để quyên góp riêng cho dự án</div>
+        </article>
+      </div>
+    </section>
+
+    <div class="footer-wave" aria-hidden="true" style="background:#fff3fb;margin-bottom:-2px;">
+      <svg viewBox="0 0 1440 56" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height:56px;">
+        <path d="M0,24 C240,50 480,8 720,30 C960,52 1200,8 1440,26 L1440,56 L0,56 Z" fill="#fffdf7" />
       </svg>
     </div>
 
