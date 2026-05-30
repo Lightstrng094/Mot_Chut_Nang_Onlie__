@@ -972,96 +972,6 @@
       text-align: center;
     }
 
-    .thank-card-lab {
-      grid-column: 1 / -1;
-      display: grid;
-      grid-template-columns: minmax(0, .92fr) minmax(320px, 1.08fr);
-      gap: clamp(18px, 4vw, 36px);
-      align-items: center;
-      margin-top: 34px;
-      padding: clamp(20px, 4vw, 34px);
-      border-radius: 24px;
-      border: 1px solid rgba(249, 199, 79, .28);
-      background:
-        radial-gradient(circle at 8% 12%, rgba(249, 199, 79, .22), transparent 32%),
-        linear-gradient(135deg, rgba(255, 255, 255, .9), rgba(255, 248, 238, .74));
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
-    .thank-card-copy h3 {
-      font-family: "Pacifico", cursive;
-      color: var(--brown);
-      font-size: clamp(1.7rem, 4vw, 2.6rem);
-      margin-bottom: 10px;
-    }
-
-    .thank-card-copy p {
-      color: var(--muted);
-      line-height: 1.7;
-      font-weight: 800;
-      margin-bottom: 16px;
-    }
-
-    .thank-form {
-      display: grid;
-      gap: 12px;
-    }
-
-    .thank-form label {
-      display: grid;
-      gap: 7px;
-      color: var(--brown-soft);
-      font-weight: 900;
-    }
-
-    .thank-form input {
-      width: 100%;
-      border: 1px solid rgba(111, 75, 38, .22);
-      border-radius: var(--radius);
-      padding: 13px 14px;
-      background: #fff;
-      color: var(--brown);
-      outline: 0;
-      transition: border-color .2s ease, box-shadow .2s ease;
-    }
-
-    .thank-form input:focus {
-      border-color: var(--sun-deep);
-      box-shadow: 0 0 0 4px rgba(243, 114, 44, .13);
-    }
-
-    .thank-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .thank-preview {
-      position: relative;
-      padding: 10px;
-      border-radius: 18px;
-      background: linear-gradient(135deg, var(--sun), var(--rose), var(--sky));
-      box-shadow: 0 18px 46px rgba(95, 62, 25, .16);
-    }
-
-    .thank-preview::after {
-      content: "☀";
-      position: absolute;
-      right: -8px;
-      top: -20px;
-      font-size: 3rem;
-      filter: drop-shadow(0 10px 18px rgba(249, 199, 79, .35));
-      animation: floatAround 4.8s ease-in-out infinite;
-    }
-
-    .thank-preview canvas {
-      width: 100%;
-      display: block;
-      border-radius: 12px;
-      background: #fffdf7;
-    }
-
     .sun-mascot {
       position: fixed;
       right: 22px;
@@ -2239,7 +2149,6 @@
       .hero-inner,
       .about-layout,
       .donation-layout,
-      .thank-card-lab,
       .footer-grid {
         grid-template-columns: 1fr;
       }
@@ -3304,26 +3213,6 @@
           </div>
           <div class="donation-note">Quét QR để quyên góp riêng cho dự án</div>
         </article>
-
-        <div class="thank-card-lab reveal" id="thankCardLab">
-          <div class="thank-card-copy">
-            <h3>Thiệp cảm ơn tự động</h3>
-            <p>
-              Khi đặt hàng, bạn có thể nhập email để Nắng gửi lại một tấm thiệp cảm ơn nhỏ xinh,
-              được tạo tự động theo tên của bạn.
-            </p>
-            <div class="thank-form">
-              <input id="thankName" type="hidden" value="Bạn">
-              <div class="thank-actions">
-                <button class="btn btn-primary" id="generateThankCard" type="button">Xem thiệp mẫu</button>
-                <a class="btn btn-secondary" href="#order">Đặt hàng để nhận thiệp</a>
-              </div>
-            </div>
-          </div>
-          <div class="thank-preview" aria-label="Xem trước thiệp cảm ơn">
-            <canvas id="thankCanvas" width="1080" height="640"></canvas>
-          </div>
-        </div>
       </div>
     </section>
 
@@ -3434,7 +3323,7 @@
       <div class="checkout-head">
       <div>
         <h2>Gửi đơn hàng</h2>
-        <p>Thông tin đơn sẽ được gửi về email dự án. Nếu bạn nhập email, Nắng sẽ gửi lại một tấm thiệp cảm ơn nhỏ xinh.</p>
+        <p>Thông tin đơn sẽ được gửi về email dự án để đội Một Chút Nắng xác nhận và chuẩn bị món.</p>
       </div>
       <button class="icon-btn" id="closeCheckout" type="button" aria-label="Đóng form đặt hàng">✕</button>
     </div>
@@ -3453,11 +3342,6 @@
             <input id="customerPhone" name="customer_phone" type="tel" autocomplete="tel" required>
           </div>
           <div class="field full">
-            <label for="customerEmail">Email nhận thiệp cảm ơn</label>
-            <input id="customerEmail" name="customer_email" type="email" autocomplete="email"
-              placeholder="Cảm ơn bạn vì đã mua hàng. Nhập email để Nắng gửi bạn một phần nhỏ nhé!">
-          </div>
-          <div class="field full">
             <label for="customerAddress">Địa điểm nhận món</label>
             <input id="customerAddress" name="pickup_location" type="text" placeholder="Ví dụ: sảnh Alpha, FPT HCM"
               required>
@@ -3470,7 +3354,7 @@
         </div>
 
         <p class="form-note">
-          Email là không bắt buộc. Nếu có email, thiệp cảm ơn sẽ được tạo tự động theo tên của bạn và gửi kèm sau khi đặt hàng.
+          Đơn sẽ gửi về Gmail của dự án. Nếu gửi tự động gặp lỗi, bạn có thể dùng nút email dự phòng.
         </p>
       </div>
 
@@ -3494,11 +3378,10 @@
 
   <aside class="sun-mascot open" id="sunMascot" aria-label="Mascot mặt trời hỗ trợ">
     <div class="mascot-bubble">
-      <p id="mascotText">Mình là Nắng nhỏ ☀️ Bạn muốn xem món ngon, quét QR quyên góp hay tạo thiệp cảm ơn?</p>
+      <p id="mascotText">Mình là Nắng nhỏ ☀️ Bạn muốn xem món ngon hay quét QR quyên góp?</p>
       <div class="mascot-actions">
         <button type="button" id="mascotMenu">Xem menu</button>
         <button type="button" id="mascotDonate">Quyên góp</button>
-        <button type="button" id="mascotThanks">Tạo thiệp</button>
         <button type="button" id="mascotClose">Ẩn lời nhắc</button>
       </div>
     </div>
@@ -3604,18 +3487,11 @@
       mailFallback: document.getElementById("mailFallback"),
       toast: document.getElementById("toast"),
       topBtn: document.getElementById("topBtn"),
-      customerEmail: document.getElementById("customerEmail"),
-      thankName: document.getElementById("thankName"),
-      thankCanvas: document.getElementById("thankCanvas"),
-      generateThankCard: document.getElementById("generateThankCard"),
-      downloadThankCard: document.getElementById("downloadThankCard"),
-      shareThankCard: document.getElementById("shareThankCard"),
       sunMascot: document.getElementById("sunMascot"),
       mascotText: document.getElementById("mascotText"),
       mascotToggle: document.getElementById("mascotToggle"),
       mascotMenu: document.getElementById("mascotMenu"),
       mascotDonate: document.getElementById("mascotDonate"),
-      mascotThanks: document.getElementById("mascotThanks"),
       mascotClose: document.getElementById("mascotClose")
     };
 
@@ -4216,7 +4092,6 @@
       return {
         name: document.getElementById("customerName").value.trim(),
         phone: document.getElementById("customerPhone").value.trim(),
-        email: document.getElementById("customerEmail").value.trim(),
         address: document.getElementById("customerAddress").value.trim(),
         note: document.getElementById("customerNote").value.trim()
       };
@@ -4234,7 +4109,6 @@
         "",
         `Khách hàng: ${info.name || "Chưa nhập"}`,
         `Số điện thoại: ${info.phone || "Chưa nhập"}`,
-        `Email nhận thiệp: ${info.email || "Không yêu cầu"}`,
         `Địa điểm nhận món: ${info.address || "Chưa nhập"}`,
         `Ghi chú: ${info.note || "Không có"}`,
         "",
@@ -4261,7 +4135,6 @@
     function createOrderPayload(info = collectCustomerInfo()) {
       const now = new Date();
       const orderId = `MCN-${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}-${String(now.getHours()).padStart(2, "0")}${String(now.getMinutes()).padStart(2, "0")}${String(now.getSeconds()).padStart(2, "0")}`;
-      const thankCardDataUrl = info.email ? createThankCardDataUrl(info.name || "Bạn") : "";
       const items = cart.map(item => {
         const product = getProduct(item.id);
         return product ? {
@@ -4284,15 +4157,7 @@
         items,
         total: getCartTotal(),
         totalText: formatMoney(getCartTotal()),
-        orderText: buildOrderText(info),
-        thankCard: info.email ? {
-          enabled: true,
-          recipientEmail: info.email,
-          recipientName: info.name || "Bạn",
-          dataUrl: thankCardDataUrl
-        } : {
-          enabled: false
-        }
+        orderText: buildOrderText(info)
       };
     }
 
@@ -4369,154 +4234,6 @@
       toastTimer = setTimeout(() => els.toast.classList.remove("show"), 2300);
     }
 
-    function getThankName() {
-      const value = els.thankName?.value.trim();
-      return value || "Bạn";
-    }
-
-    function drawRoundedRect(ctx, x, y, width, height, radius) {
-      const r = Math.min(radius, width / 2, height / 2);
-      ctx.beginPath();
-      ctx.moveTo(x + r, y);
-      ctx.arcTo(x + width, y, x + width, y + height, r);
-      ctx.arcTo(x + width, y + height, x, y + height, r);
-      ctx.arcTo(x, y + height, x, y, r);
-      ctx.arcTo(x, y, x + width, y, r);
-      ctx.closePath();
-    }
-
-    function drawThankCard(nameOverride) {
-      if (!els.thankCanvas) return;
-
-      const canvas = els.thankCanvas;
-      const ctx = canvas.getContext("2d");
-      const name = (nameOverride || getThankName()).trim() || "Bạn";
-      const width = canvas.width;
-      const height = canvas.height;
-
-      const bg = ctx.createLinearGradient(0, 0, width, height);
-      bg.addColorStop(0, "#fff8ee");
-      bg.addColorStop(.52, "#fffdf7");
-      bg.addColorStop(1, "#eaffef");
-      ctx.fillStyle = bg;
-      ctx.fillRect(0, 0, width, height);
-
-      for (let i = 0; i < 22; i += 1) {
-        ctx.globalAlpha = .15 + (i % 4) * .04;
-        ctx.fillStyle = ["#f9c74f", "#ff8fab", "#59a96a", "#7cc6d7"][i % 4];
-        ctx.beginPath();
-        ctx.arc(60 + (i * 91) % width, 48 + (i * 67) % height, 18 + (i % 5) * 7, 0, Math.PI * 2);
-        ctx.fill();
-      }
-      ctx.globalAlpha = 1;
-
-      drawRoundedRect(ctx, 54, 54, width - 108, height - 108, 46);
-      ctx.fillStyle = "rgba(255,255,255,.82)";
-      ctx.fill();
-      ctx.lineWidth = 6;
-      ctx.strokeStyle = "rgba(249,199,79,.42)";
-      ctx.stroke();
-
-      const sunX = width - 180;
-      const sunY = 150;
-      ctx.save();
-      ctx.translate(sunX, sunY);
-      ctx.strokeStyle = "#f9c74f";
-      ctx.lineWidth = 10;
-      ctx.lineCap = "round";
-      for (let i = 0; i < 12; i += 1) {
-        ctx.rotate(Math.PI / 6);
-        ctx.beginPath();
-        ctx.moveTo(74, 0);
-        ctx.lineTo(104, 0);
-        ctx.stroke();
-      }
-      const sunGrad = ctx.createRadialGradient(-18, -18, 8, 0, 0, 72);
-      sunGrad.addColorStop(0, "#fff7a5");
-      sunGrad.addColorStop(.7, "#f9c74f");
-      sunGrad.addColorStop(1, "#f3722c");
-      ctx.fillStyle = sunGrad;
-      ctx.beginPath();
-      ctx.arc(0, 0, 70, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.fillStyle = "#4f3219";
-      ctx.beginPath();
-      ctx.arc(-24, -10, 7, 0, Math.PI * 2);
-      ctx.arc(24, -10, 7, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.lineWidth = 7;
-      ctx.strokeStyle = "#4f3219";
-      ctx.beginPath();
-      ctx.arc(0, 8, 26, 0, Math.PI);
-      ctx.stroke();
-      ctx.restore();
-
-      ctx.textAlign = "center";
-      ctx.fillStyle = "#f3722c";
-      ctx.font = "900 42px Nunito, sans-serif";
-      ctx.fillText("MỘT CHÚT NẮNG", width / 2, 128);
-
-      ctx.fillStyle = "#4f3219";
-      ctx.font = "700 54px Pacifico, cursive";
-      ctx.fillText("Cảm ơn", width / 2, 232);
-
-      ctx.fillStyle = "#b51b78";
-      ctx.font = "900 76px Nunito, sans-serif";
-      ctx.fillText(name, width / 2, 330);
-
-      ctx.fillStyle = "#7a4f2b";
-      ctx.font = "800 34px Nunito, sans-serif";
-      ctx.fillText("đã góp nắng cho quỹ thiện nguyện", width / 2, 396);
-
-      ctx.fillStyle = "#59a96a";
-      ctx.font = "900 30px Nunito, sans-serif";
-      ctx.fillText("Lan tỏa yêu thương • Gieo mầm hy vọng", width / 2, 462);
-
-      ctx.fillStyle = "rgba(255,143,171,.18)";
-      drawRoundedRect(ctx, 300, 502, 480, 62, 31);
-      ctx.fill();
-      ctx.fillStyle = "#b51b78";
-      ctx.font = "900 28px Nunito, sans-serif";
-      ctx.fillText("☀️ Cảm ơn bạn vì đã trở thành một tia nắng nhỏ", width / 2, 544);
-    }
-
-    function createThankCardDataUrl(name) {
-      drawThankCard(name);
-      return els.thankCanvas ? els.thankCanvas.toDataURL("image/png") : "";
-    }
-
-    function downloadThankCard() {
-      drawThankCard();
-      const link = document.createElement("a");
-      const safeName = getThankName().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9]+/g, "-").replace(/^-|-$/g, "") || "ban";
-      link.download = `thiep-cam-on-${safeName}.png`;
-      link.href = els.thankCanvas.toDataURL("image/png");
-      link.click();
-      showToast("Đã tạo file thiệp cảm ơn");
-    }
-
-    async function shareThankCard() {
-      drawThankCard();
-      if (!els.thankCanvas.toBlob) {
-        downloadThankCard();
-        return;
-      }
-
-      els.thankCanvas.toBlob(async blob => {
-        const file = new File([blob], "thiep-cam-on-mot-chut-nang.png", { type: "image/png" });
-        if (navigator.canShare?.({ files: [file] })) {
-          await navigator.share({
-            title: "Thiệp cảm ơn Một Chút Nắng",
-            text: `Cảm ơn ${getThankName()} đã góp nắng cho dự án Một Chút Nắng.`,
-            files: [file]
-          });
-          showToast("Đã mở bảng chia sẻ thiệp");
-        } else {
-          downloadThankCard();
-        }
-      }, "image/png");
-    }
-
     function mascotSay(message) {
       if (!els.mascotText) return;
       els.mascotText.textContent = message;
@@ -4577,7 +4294,6 @@
     initHero3D();
     init3DTilt();
     initReveal();
-    drawThankCard();
     updateScrollUI();
 
     els.cartToggle.addEventListener("click", openCart);
@@ -4589,21 +4305,10 @@
     els.checkoutBtn.addEventListener("click", openCheckout);
     els.closeCheckout.addEventListener("click", () => els.checkoutDialog.close());
     els.topBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
-    els.generateThankCard?.addEventListener("click", () => {
-      drawThankCard();
-      createConfetti();
-      showToast("Đã tạo thiệp cảm ơn");
-      mascotSay(`Thiệp của ${getThankName()} đẹp lắm đó ☀️ Bạn có thể tải hoặc chia sẻ ngay.`);
-    });
-    els.customerEmail?.addEventListener("input", updateOrderFields);
-    document.getElementById("customerName")?.addEventListener("input", () => drawThankCard(document.getElementById("customerName").value.trim() || "Bạn"));
-    els.thankName?.addEventListener("input", () => drawThankCard());
-    els.downloadThankCard?.addEventListener("click", downloadThankCard);
-    els.shareThankCard?.addEventListener("click", shareThankCard);
     els.mascotToggle?.addEventListener("click", () => {
       els.sunMascot.classList.toggle("open");
       if (els.sunMascot.classList.contains("open")) {
-        mascotSay("Mình đây nè ☀️ Cần mình dẫn đến Menu, QR quyên góp hay thiệp cảm ơn không?");
+        mascotSay("Mình đây nè ☀️ Cần mình dẫn đến Menu hay QR quyên góp không?");
       }
     });
     els.mascotMenu?.addEventListener("click", () => {
@@ -4614,14 +4319,9 @@
       mascotSay("Đây là khu quyên góp riêng, quét QR nếu bạn muốn góp thêm nắng.");
       scrollToSection("#donate");
     });
-    els.mascotThanks?.addEventListener("click", () => {
-      mascotSay("Nhập tên vào đây để tạo thiệp cảm ơn thật xinh nha!");
-      scrollToSection("#thankCardLab");
-      els.thankName?.focus({ preventScroll: true });
-    });
     els.mascotClose?.addEventListener("click", () => els.sunMascot?.classList.remove("open"));
 
-    ["customerName", "customerPhone", "customerEmail", "customerAddress", "customerNote"].forEach(id => {
+    ["customerName", "customerPhone", "customerAddress", "customerNote"].forEach(id => {
       document.getElementById(id).addEventListener("input", updateOrderFields);
     });
 
@@ -4648,7 +4348,7 @@
         await sendOrderToEmail(payload);
 
         els.orderStatus.textContent = "Đã gửi đơn thành công. Cảm ơn bạn đã góp một chút nắng!";
-        showToast(payload.customer.email ? "Đơn hàng đã gửi. Thiệp sẽ về email của bạn" : "Đơn hàng đã gửi về Gmail");
+        showToast("Đơn hàng đã gửi về Gmail");
         createConfetti();
         clearCart();
         els.orderForm.reset();
