@@ -58,7 +58,8 @@
       cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='4' fill='%23f9c74f' opacity='.72'/%3E%3C/svg%3E") 12 12, auto;
     }
 
-    body.drawer-open {
+    body.drawer-open,
+    body.checkout-open {
       overflow: hidden;
     }
 
@@ -1620,6 +1621,7 @@
 
     .checkout-dialog {
       width: min(720px, calc(100vw - 28px));
+      height: min(760px, calc(100vh - 28px));
       max-height: calc(100dvh - 28px);
       margin: auto;
       padding: 0;
@@ -1632,13 +1634,27 @@
     }
 
     .checkout-dialog[open] {
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
     }
 
     .checkout-dialog::backdrop {
       background: rgba(41, 26, 12, .44);
       backdrop-filter: blur(4px);
+    }
+
+    @supports (height: 100svh) {
+      .checkout-dialog {
+        height: min(760px, calc(100svh - 28px));
+        max-height: calc(100svh - 28px);
+      }
+    }
+
+    @supports (height: 100dvh) {
+      .checkout-dialog {
+        height: min(760px, calc(100dvh - 28px));
+        max-height: calc(100dvh - 28px);
+      }
     }
 
     .checkout-head {
@@ -1663,11 +1679,11 @@
     }
 
     .checkout-form {
-      display: flex;
-      flex: 1;
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) auto;
       min-height: 0;
-      flex-direction: column;
       padding: 0;
+      overflow: hidden;
     }
 
     .checkout-scroll {
@@ -1677,6 +1693,7 @@
       min-height: 0;
       overflow-y: auto;
       padding: 20px 22px 18px;
+      -webkit-overflow-scrolling: touch;
       overscroll-behavior: contain;
     }
 
@@ -1700,6 +1717,7 @@
       max-height: var(--checkout-items-h);
       overflow-y: auto;
       padding: 14px;
+      -webkit-overflow-scrolling: touch;
       overscroll-behavior: contain;
     }
 
@@ -2285,8 +2303,23 @@
 
       .checkout-dialog {
         width: calc(100vw - 16px);
-        max-height: calc(100dvh - 16px);
+        height: calc(100vh - 16px);
+        max-height: calc(100vh - 16px);
         border-radius: 16px;
+      }
+
+      @supports (height: 100svh) {
+        .checkout-dialog {
+          height: calc(100svh - max(16px, env(safe-area-inset-top)) - max(16px, env(safe-area-inset-bottom)));
+          max-height: calc(100svh - max(16px, env(safe-area-inset-top)) - max(16px, env(safe-area-inset-bottom)));
+        }
+      }
+
+      @supports (height: 100dvh) {
+        .checkout-dialog {
+          height: calc(100dvh - max(16px, env(safe-area-inset-top)) - max(16px, env(safe-area-inset-bottom)));
+          max-height: calc(100dvh - max(16px, env(safe-area-inset-top)) - max(16px, env(safe-area-inset-bottom)));
+        }
       }
 
       .checkout-head {
@@ -2303,7 +2336,16 @@
       }
 
       .checkout-summary {
-        --checkout-items-h: clamp(170px, 28dvh, 220px);
+        --checkout-items-h: clamp(110px, 18svh, 150px);
+        order: 2;
+      }
+
+      .form-grid {
+        order: 1;
+      }
+
+      .form-note {
+        order: 3;
       }
 
       .checkout-items {
@@ -4062,7 +4104,24 @@
       renderCheckoutSummary();
       updateOrderFields();
       closeCart();
-      els.checkoutDialog.showModal();
+      document.body.classList.add("checkout-open");
+      if (typeof els.checkoutDialog.showModal === "function") {
+        els.checkoutDialog.showModal();
+      } else {
+        els.checkoutDialog.setAttribute("open", "");
+      }
+      requestAnimationFrame(() => {
+        els.checkoutDialog.querySelector(".checkout-scroll")?.scrollTo({ top: 0, behavior: "auto" });
+      });
+    }
+
+    function closeCheckoutDialog() {
+      if (typeof els.checkoutDialog.close === "function") {
+        els.checkoutDialog.close();
+      } else {
+        els.checkoutDialog.removeAttribute("open");
+        document.body.classList.remove("checkout-open");
+      }
     }
 
     function renderCheckoutSummary() {
@@ -4303,7 +4362,8 @@
     els.drawerBackdrop.addEventListener("click", closeCart);
     els.clearCart.addEventListener("click", clearCart);
     els.checkoutBtn.addEventListener("click", openCheckout);
-    els.closeCheckout.addEventListener("click", () => els.checkoutDialog.close());
+    els.closeCheckout.addEventListener("click", closeCheckoutDialog);
+    els.checkoutDialog.addEventListener("close", () => document.body.classList.remove("checkout-open"));
     els.topBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
     els.mascotToggle?.addEventListener("click", () => {
       els.sunMascot.classList.toggle("open");
@@ -4353,7 +4413,7 @@
         clearCart();
         els.orderForm.reset();
         updateOrderFields();
-        els.checkoutDialog.close();
+        closeCheckoutDialog();
       } catch (error) {
         els.orderStatus.classList.add("error");
         els.orderStatus.textContent = error.message === "ORDER_ENDPOINT_NOT_CONFIGURED"
